@@ -1,0 +1,82 @@
+#jogo da velha atividade 
+"""Tic Tac Toe
+
+Exercises
+
+1. Give the X and O a different color and width.
+2. What happens when someone taps a taken spot?
+3. How would you detect when someone has won?
+4. How could you create a computer player?
+
+2.Neste código, quando um jogador toca em um ponto já ocupado ele se torna ocupado duas vezes por duas formas diferentes(no caso o X e o O) no mesmo local.
+Para que isso não aconteça será necessário uma implementação de um código que identifique quando um espaço está ocupado ou não, e que ignore  outra tentativa de ocupação de um espaço que já está localizado um elemento.
+
+3.
+Nesse código o programa não possui uma lógica de programação para detectar se um jogador ganhou , perdeu ou apenas empatou com seu adversário. 
+Mais se eu fosse alterar o código fonte incluindo um método de fim de jogo seria algo nesse modelo:
+Faria uma função de verificação de vitórias ;
+Uma lista com combinações de condições verdadeiras de vitórias 
+usaria métodos como for e if para identificar se a condição é realmente verdadeira
+ Caso fosse, usaremos o True como confirmação da condição verdadeira, caso não  essa condição seria False.
+com isso poderia criar um loop capaz de saber quando a partida tem um ganhador
+
+4.
+Criaria um meio de IA  que pudesse ser usada para esse jogo algumas pontos que eu iria considerar seria:
+Uma função de avaliação.
+Criar um algoritmo para escolher de forma lógica a melhor estratégia para ganhar esse embate. 
+Que identificasse empate, vitória ou derrota
+E por último eu provavelmente usaria o  algoritmo mínimax para me auxiliar nessa construção. 
+"""
+
+from turtle import *
+
+from freegames import line
+
+def grid():
+    """Draw tic-tac-toe grid."""
+    line(-67, 200, -67, -200)
+    line(67, 200, 67, -200)
+    line(-200, -67, 200, -67)
+    line(-200, 67, 200, 67)
+
+def drawx(x, y):
+    color("red")  #alterei a cor
+    pensize(2)     # Defina a largura da linha como 3
+    line(x, y, x + 133, y + 133)
+    line(x, y + 133, x + 133, y)
+
+
+def drawo(x, y):
+    """Desenhar o jogador O."""
+    color("green")  #alterei a cor 
+    pensize(2) #defini a largura da linha com 2
+    up()
+    goto(x + 67, y + 5)
+    down()
+    circle(62)
+
+
+def floor(value):
+    """Round value down to grid with square size 133."""
+    return ((value + 200) // 133) * 133 - 200
+
+state = {'player': 0}
+players = [drawx, drawo]
+
+def tap(x, y):
+    """Draw X or O in tapped square."""
+    x = floor(x)
+    y = floor(y)
+    player = state['player']
+    draw = players[player]
+    draw(x, y)
+    update()
+    state['player'] = not player
+
+setup(420, 420, 370, 0)
+hideturtle()
+tracer(False)
+grid()
+update()
+onscreenclick(tap)
+done()
